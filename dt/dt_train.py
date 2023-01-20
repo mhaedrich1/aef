@@ -90,6 +90,7 @@ def get_dtc_score(split: List[float], file_number: int, depth: int):
     dtc.fit(data[0][0], data[0][1])
 
     predicted_values = dtc.predict(data[1][0])
+    print(predicted_values)
     correct_values = data[1][1]
     hamming_distances = []
     for i in range(len(predicted_values)):
@@ -105,15 +106,25 @@ def get_dtc_score(split: List[float], file_number: int, depth: int):
 
 def main():
     train_portions = [0.05]
+    while True:
+        x = input("Do you want to save the results? (y/n): ")
+        if x in "yn":
+            save_res = x == "y"
+            break
+    while True:
+        x = input("Do you want to save the dtc? (y/n): ")
+        if x in "yn":
+            save_dtc = x == "y"
+            break
     for train_portion in train_portions:
-        reps = 11
+        reps = 1#11
         assert reps % 2 == 1, "There needs to be an odd number of iterations because the median is used"
         split = [train_portion, 1-train_portion]
 
         all_scores = {}
         best_scores = {}
         num_bitss = {}
-        for file_number in range(100):
+        for file_number in [35]:#range(100):
             depth = 1
             file_scores = []
             dtcs_file = []  # get dtcs with different max depths
@@ -139,10 +150,11 @@ def main():
             min_pos = np.argmin(file_scores)
             best_scores[file_number] = file_scores[min_pos]
 
-            dtc_file_path = os.path.join("intermeds", f"dt_split_{split[0]}", f"dtc_{file_number}.pkl")
+            dtc_file_path = os.path.join("intermeds_DTCs", f"dt_split_{split[0]}", f"dtc_{file_number}.pkl")
             os.makedirs(os.path.dirname(dtc_file_path), exist_ok=True)
-            with open(dtc_file_path, "wb") as file:
-                pickle.dump(dtcs_file[min_pos], file)
+            if save_dtc:
+                with open(dtc_file_path, "wb") as file:
+                    pickle.dump(dtcs_file[min_pos], file)
             print()
 
         data = {
@@ -151,9 +163,9 @@ def main():
             "best_scores": best_scores,
             "all_scores": all_scores
         }
-
-        with open(f"results/dt_split_{split[0]}", "w") as write_file:
-            json.dump(data, write_file, indent=4)
+        if save_res:
+            with open(f"results/dt_split_{split[0]}", "w") as write_file:
+                json.dump(data, write_file, indent=4)
 
         print(f"Total average score: {sum(best_scores.values())/len(best_scores.values())}")
 

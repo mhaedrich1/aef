@@ -1,0 +1,81 @@
+module dtc_split05_bm39 (
+	input  wire [14-1:0] inp,
+	output wire [14-1:0] outp
+);
+
+	wire [14-1:0] node1;
+	wire [14-1:0] node3;
+	wire [14-1:0] node4;
+	wire [14-1:0] node5;
+	wire [14-1:0] node6;
+	wire [14-1:0] node9;
+	wire [14-1:0] node12;
+	wire [14-1:0] node13;
+	wire [14-1:0] node17;
+	wire [14-1:0] node18;
+	wire [14-1:0] node19;
+	wire [14-1:0] node22;
+	wire [14-1:0] node26;
+	wire [14-1:0] node27;
+	wire [14-1:0] node28;
+	wire [14-1:0] node29;
+	wire [14-1:0] node30;
+	wire [14-1:0] node33;
+	wire [14-1:0] node36;
+	wire [14-1:0] node37;
+	wire [14-1:0] node41;
+	wire [14-1:0] node42;
+	wire [14-1:0] node43;
+	wire [14-1:0] node47;
+	wire [14-1:0] node48;
+	wire [14-1:0] node52;
+	wire [14-1:0] node53;
+	wire [14-1:0] node54;
+	wire [14-1:0] node55;
+	wire [14-1:0] node58;
+	wire [14-1:0] node61;
+	wire [14-1:0] node62;
+	wire [14-1:0] node66;
+	wire [14-1:0] node67;
+	wire [14-1:0] node68;
+	wire [14-1:0] node71;
+
+	assign outp = (inp[13]) ? node26 : node1;
+		assign node1 = (inp[8]) ? node3 : 14'b00000000000000;
+			assign node3 = (inp[0]) ? node17 : node4;
+				assign node4 = (inp[11]) ? node12 : node5;
+					assign node5 = (inp[3]) ? node9 : node6;
+						assign node6 = (inp[7]) ? 14'b00100000110000 : 14'b00000000000000;
+						assign node9 = (inp[7]) ? 14'b00000000000001 : 14'b00000000000000;
+					assign node12 = (inp[10]) ? 14'b00000000000001 : node13;
+						assign node13 = (inp[4]) ? 14'b00000000000001 : 14'b00000000010100;
+				assign node17 = (inp[7]) ? 14'b00000000000001 : node18;
+					assign node18 = (inp[10]) ? node22 : node19;
+						assign node19 = (inp[9]) ? 14'b00000000000001 : 14'b00000010100100;
+						assign node22 = (inp[2]) ? 14'b00000000000001 : 14'b00000000000001;
+		assign node26 = (inp[3]) ? node52 : node27;
+			assign node27 = (inp[2]) ? node41 : node28;
+				assign node28 = (inp[0]) ? node36 : node29;
+					assign node29 = (inp[11]) ? node33 : node30;
+						assign node30 = (inp[8]) ? 14'b00000000000000 : 14'b00110100100110;
+						assign node33 = (inp[12]) ? 14'b00000000000001 : 14'b00000000000000;
+					assign node36 = (inp[1]) ? 14'b00000000000001 : node37;
+						assign node37 = (inp[10]) ? 14'b00000000000001 : 14'b00000000010100;
+				assign node41 = (inp[4]) ? node47 : node42;
+					assign node42 = (inp[5]) ? 14'b00000000000001 : node43;
+						assign node43 = (inp[1]) ? 14'b00000000000001 : 14'b01100000010100;
+					assign node47 = (inp[12]) ? 14'b00000000000001 : node48;
+						assign node48 = (inp[7]) ? 14'b00000000000001 : 14'b00000000000001;
+			assign node52 = (inp[6]) ? node66 : node53;
+				assign node53 = (inp[0]) ? node61 : node54;
+					assign node54 = (inp[2]) ? node58 : node55;
+						assign node55 = (inp[10]) ? 14'b00000000000001 : 14'b00000110100100;
+						assign node58 = (inp[4]) ? 14'b00000000000001 : 14'b00000000000001;
+					assign node61 = (inp[4]) ? 14'b00000000000001 : node62;
+						assign node62 = (inp[11]) ? 14'b00000000000001 : 14'b00000000000001;
+				assign node66 = (inp[1]) ? 14'b00000000000001 : node67;
+					assign node67 = (inp[0]) ? node71 : node68;
+						assign node68 = (inp[7]) ? 14'b00000000000001 : 14'b00000000000001;
+						assign node71 = (inp[9]) ? 14'b00000000000001 : 14'b00000000100000;
+
+endmodule
