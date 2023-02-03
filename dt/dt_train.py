@@ -112,7 +112,7 @@ def main():
             save_res = x == "y"
             break
     while True:
-        x = input("Do you want to save the dtc? (y/n): ")
+        x = input("Do you want to save the dtcs? (y/n): ")
         if x in "yn":
             save_dtc = x == "y"
             break

@@ -71,6 +71,7 @@ def main():
             break
         else:
             print("Only 'dt' and 'rf' are allowed!")
+    folder = inp
 
     while True:
         inp = input("Verilog 2 BLIF? (y/n): ")
@@ -80,7 +81,7 @@ def main():
             print("Only 'y' and 'n' are allowed!")
 
     if inp == "y":
-        verilog_files = glob.glob(f"{inp}/intermeds_verilog/*/*.v")
+        verilog_files = glob.glob(f"{folder}/intermeds_verilog/*/*.v")
         for i, verilog_path in enumerate(verilog_files):
             print(f"\rTo BLIF: {i/len(verilog_files)/100:.2f}%", end="")
             blif_path = verilog_path.replace("verilog", "blif")
@@ -97,7 +98,8 @@ def main():
             print("Only 'y' and 'n' are allowed!")
 
     if inp == "y":
-        blif_paths = glob.glob(f"{inp}/intermeds_blif/*/*.blif")
+        blif_paths = glob.glob(f"{folder}/intermeds_blif/*/*.blif")
+        print(blif_paths)
         for i, blif_path in enumerate(blif_paths):
             print(f"\rTo AIG: {i/len(blif_paths)/100:.2f}%", end="")
             ast_file = blif_path.replace("blif", "aig")
