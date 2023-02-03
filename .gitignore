@@ -1,2 +1,4 @@
 venv/
 dt/intermeds_verilog/
+dt/intermeds_aig/
+dt/intermeds_blif/
