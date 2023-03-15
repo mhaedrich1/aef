@@ -107,7 +107,7 @@ def get_dtc_score(split: List[float], file_number: int, depth: int):
 def main():
     train_portions = [0.05]
     while True:
-        x = input("Do you want to save the results? (y/n): ")
+        x = input("Do you want to save the results_rfcs? (y/n): ")
         if x in "yn":
             save_res = x == "y"
             break

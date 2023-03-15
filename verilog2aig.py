@@ -39,7 +39,7 @@ def blif_to_aig_abc(blif_path: os.path, ast_path: os.path, abc_path: os.path):
     os.system(abc_command)
 
 
-def verilog_to_ast_yosys(verilog_path: os.path, ast_path: os.path, yosys_path="/home/moritz/Documents/yosys/yosys"):
+def verilog_to_aig_yosys(verilog_path: os.path, ast_path: os.path, yosys_path="/home/moritz/Documents/yosys/yosys"):
     yosys_command_path = "tmp_yosys_com.ys"
     yosys_command = f"read_verilog {verilog_path}\n" \
                     f"synth -flatten\n" \
@@ -83,7 +83,7 @@ def main():
     if inp == "y":
         verilog_files = glob.glob(f"{folder}/intermeds_verilog/*/*.v")
         for i, verilog_path in enumerate(verilog_files):
-            print(f"\rTo BLIF: {i/len(verilog_files)/100:.2f}%", end="")
+            print(f"\rTo BLIF: {i}/{len(verilog_files)}", end="")
             blif_path = verilog_path.replace("verilog", "blif")
             blif_path = blif_path[:-1]  # remove the v at the end from verilog
             blif_path = blif_path + "blif"
@@ -101,7 +101,7 @@ def main():
         blif_paths = glob.glob(f"{folder}/intermeds_blif/*/*.blif")
         print(blif_paths)
         for i, blif_path in enumerate(blif_paths):
-            print(f"\rTo AIG: {i/len(blif_paths)/100:.2f}%", end="")
+            print(f"\rTo AIG: {i}/{len(blif_paths)}", end="")
             ast_file = blif_path.replace("blif", "aig")
             blif_to_aig_abc(blif_path, ast_file, "/home/moritz/workspace/vtr-verilog-to-routing/abc/abc")
             # os.remove(blif_path)

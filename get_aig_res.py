@@ -8,6 +8,9 @@ import pandas as pd
 
 
 def extract_res_from_output(line):
+    if "Wrong input file format" in line:
+        print("\n\n Wrong input file format\n\n")
+        return None
     line = line.split(":")[-1].replace(" ", "")
     i_o = line.split("i/o=")[-1].split("lat")[0]
     i_o = i_o.split("/")
@@ -29,8 +32,9 @@ def add_file_info(results, file_path):
     info_list = file_path.split(os.sep)
     results['split'] = float(info_list[-2].split("_")[-1])
     results['bm'] = info_list[-1].split(".")[0].split("_")[-1]
-    with open(f"{info_list[0]}/results/{info_list[2]}", "r") as f:
-        data = json.load(f)
+    if info_list[0] != "rf":
+        with open(f"{info_list[0]}/results/{info_list[2]}", "r") as f:
+            data = json.load(f)
     results["score"] = data["best_scores"][results["bm"]]
     return results
 
@@ -60,6 +64,19 @@ def get_results(aig_path, pla_path, abc_path):
     return extract_res_from_output(lines)
 
 
+def add_rf_file_info(results, aig_file):
+    rfc_data_file = aig_file.replace("intermeds_aig", "results_DTCs_list").replace("rf_", "res_df")
+    rfc_data_file = rfc_data_file.replace(".aig", ".pkl")
+    rfc_data_file_split = rfc_data_file.split(os.sep)
+    with open(rfc_data_file, "rb") as f:
+        data = pickle.load(f)
+    if data.empty:
+        return results
+    data = data[data["score"] == data["score"].min()].iloc[0]
+    results.update(data.to_dict())
+    return results
+
+
 def main():
     while True:
         inp = input("dt or rf: ")
@@ -81,12 +98,18 @@ def main():
         console_output_file = "tmp.txt"
         for i, aig_file in enumerate(aig_files):
             print(f"\rGet results: {i*100/len(aig_files):.2f}%", end="")
+            print(aig_file)
             os.system(f"touch {console_output_file}")
             os.system(f'/home/moritz/workspace/vtr-verilog-to-routing/abc/abc -q "read {aig_file}; print_stats" > {console_output_file}')
             with open(console_output_file, "r") as file:
                 results = file.readline()[:-1]
             results = extract_res_from_output(results)
-            results = add_file_info(results, aig_file)
+            if results is None:
+                continue
+            if folder == "dt":
+                results = add_file_info(results, aig_file)
+            else:
+                results = add_rf_file_info(results, aig_file)
             all_aig_rslts.append(results)
             os.remove(console_output_file)
 
@@ -101,7 +124,7 @@ def main():
     # for res in all_aig_rslts:
     #     res['depth'] = int(res['depth'])
     frame = pd.DataFrame.from_records(all_aig_rslts)
-    print(frame)
+    print(len(frame[(frame["estimators"] != 1)].index))
 
 
 if __name__ == '__main__':
